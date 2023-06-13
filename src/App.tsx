@@ -5,7 +5,7 @@ import "./App.scss"
 
 const countryCodes = [
     { label: '+1', value: '1' },
-    { label: '+44', value: '44' },
+    { label: '+86', value: '86' },
     { label: '+61', value: '61' },
     // Add more country codes as needed
 ];
@@ -38,7 +38,14 @@ const App = (): ReactElement => {
                 <input type="email" {...register("email", {required: "This input field is required"})} placeholder="Email" className="form-input"/>
             </label>
             <label className="form-phone">
-                <Select options={countryCodes} className="form-select"/>
+                <Select  
+                        options={countryCodes}  
+                        className="form-select"
+                        onChange={(selectedOption) => {
+                          // Update the form value using the register function
+                          register("countryCode").onChange(selectedOption?.value);
+                        }}
+                />
                 <input type="tel" {...register("phone", {required: "This input field is required"})} placeholder="Phone" className="form-input"/>
             </label>
             <input type="submit" value="Submit" className="form-submit"/>
