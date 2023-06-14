@@ -13,16 +13,13 @@ const validatePhone = (countryCode: string, number: string) => (
 )
 
 const App = (): ReactElement => {
-    const {register, handleSubmit, getValues, formState: {errors}} = useForm({defaultValues:{
+    const {register, handleSubmit, getValues, formState: {errors, isDirty}} = useForm({defaultValues:{
         firstName: "", lastName: "", email: "", countryCode:"", phone: ""
     }});
     const onSubmit = (content: any) => {
-        if(errors){
-            alert(JSON.stringify(content))
-        }
+        alert(JSON.stringify(content))
     };
 
-    console.log(errors);
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form">
             <label>
@@ -85,27 +82,9 @@ const App = (): ReactElement => {
                 </div>
                 {errors.phone && <p className="error-message">{errors.phone.message}</p>}
             </label>
-            <input type="submit" value="Submit" className="form-submit"/>
+            <input type="submit" value="Submit" className={!isDirty ? "form-submit": "form-submit-enabled"}/>
         </form>
     )
 }
 
 export default App;
-
-/*
-
-                <Controller
-                    name="phone"
-                    control={control}
-                    rules={{ required: true, validate: (value) => isValidPhoneNumber(value) }}
-                    render={() => (
-                        <PhoneInput
-                            value={getValues("phone")}
-                            onChange={(newValue) => setValue("phone", newValue ? `${newValue}` : "")}
-                            countries={countries as any}
-                            className={`form-input${errors.phone ? "-input-error" : ""}`}
-                            required
-                        />
-                    )}
-                />
-*/
