@@ -6,11 +6,7 @@ import "./App.scss"
 
 const countryCodes = [" ", "+1", "+61","+86"]
 
-const validatePhone = (countryCode: string, number: string) => (
-    isValidPhoneNumber(countryCode + number)
-    ? true
-    : 'Invalid phone number'
-)
+
 
 const App = (): ReactElement => {
     const {register, handleSubmit, getValues, formState: {errors, isDirty}} = useForm({defaultValues:{
@@ -19,6 +15,11 @@ const App = (): ReactElement => {
     const onSubmit = (content: any) => {
         alert(JSON.stringify(content))
     };
+    const validatePhone = () => (
+        isValidPhoneNumber(getValues("countryCode") + getValues("phone"))
+        ? true
+        : 'Invalid phone number'
+    );
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -76,7 +77,7 @@ const App = (): ReactElement => {
                             value: /^[0-9]/,
                             message: "Invalid phone number",
                         },
-                        validate: () => (validatePhone(getValues("countryCode"),getValues("phone")))
+                        validate: () => (validatePhone())
                     })} className={`form-input${errors.phone ? "-input-error" : ""}`}
                     />
                 </div>
