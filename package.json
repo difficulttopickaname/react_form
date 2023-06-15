@@ -9,7 +9,9 @@
     "web-vitals": "^2.1.4",
     "react-hook-form": "^7.43.9",
     "react-select": "^5.7.0",
-    "react-phone-number-input": "^3.2.7"
+    "react-phone-number-input": "^3.2.7",
+    "i18next": "^21.10.0",
+    "react-i18next": "^11.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
