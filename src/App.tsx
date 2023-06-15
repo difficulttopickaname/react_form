@@ -8,6 +8,13 @@ import "./I18n"
 
 const countryCodes = ["", "+1", "+61","+86"]
 
+const fields = ["firstName", "lastName", "email", "countryCode", "phone"]
+
+const defaultValues = fields.reduce<{ [key: string]: string }>((acc, field) => {
+    acc[field] = "";
+    return acc;
+  }, {});
+
 type FormValues = {
     firstName: string;
     lastName: string;
@@ -26,13 +33,27 @@ const App = (): ReactElement => {
             setError, 
             clearErrors,
             formState: {errors, isDirty}
-        } = useForm({defaultValues:{
-        firstName: "", lastName: "", email: "", countryCode:"", phone: ""
-    }});
+        } = useForm({defaultValues: defaultValues});
+
+    const [hasPrevious, handleHasPrevious] = React.useState(localStorage.getItem("dataKey") ? true : false);
     
     const onSubmit = (content: any) => {
+        localStorage.setItem('dataKey', JSON.stringify(content));
+        handleHasPrevious(true);
         alert(JSON.stringify(content))
     };
+
+    const handleLoadFromLocalStorage = () => {
+        const storedData = localStorage.getItem("dataKey");
+
+        if(storedData){
+            const data = JSON.parse(storedData);
+
+            Object.keys(data).forEach((fieldName) => {
+                setValue(fieldName, data[fieldName])
+            });
+        }
+      };
 
     const validatePhone = () => {
         if(!getValues("phone") || isValidPhoneNumber(getValues("countryCode") + getValues("phone"))){
@@ -74,7 +95,7 @@ const App = (): ReactElement => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <form className="form">
             <label>
                 <p className="form-entry-title">{t("firstName.title")}</p>
                 <input type="text" {...register("firstName",{
@@ -125,7 +146,19 @@ const App = (): ReactElement => {
                 {errors.countryCode && <p className="error-message">{errors.countryCode.message}</p>}
                 {errors.phone && <p className="error-message">{errors.phone.message}</p>}
             </label>
-            <input type="submit" value="Submit" className={!isDirty ? "form-submit": "form-submit-enabled"}/>
+            <input type="submit" value={t("button.submit")} onClick={handleSubmit(onSubmit)} className={!isDirty ? "form-button": "form-submit"} />
+            <button type="button" className={"form-clear"} 
+                    onClick={() => {
+                        fields.forEach((fieldName) => {
+                            setValue(fieldName, "");
+                          });
+                        
+                          clearErrors();
+                    }}
+            >{t("button.clear")}</button>
+            <button type="button" className={!hasPrevious ? "form-button": "form-previous"}
+                    onClick={handleLoadFromLocalStorage}
+            >{t("button.previous")}</button>
         </form>
     )
 }

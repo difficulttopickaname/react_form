@@ -60,7 +60,7 @@
         width: 95px;
         margin-right: 14px;
     }
-    .form-submit{
+    .form-button{
         width: 100%;
         height: 48px;
         background-color: #E6E6E6;
@@ -71,8 +71,18 @@
         font-weight: 700;
     }
 
-    .form-submit-enabled{
-        @extend .form-submit;
+    .form-submit{
+        @extend .form-button;
         background-color: #013B81;
+    }
+
+    .form-clear{
+        @extend .form-button;
+        background-color: gray;
+    }
+
+    .form-previous{
+        @extend .form-button;
+        background-color: gray;
     }
 }

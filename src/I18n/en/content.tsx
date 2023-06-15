@@ -27,4 +27,10 @@ export default{
         pattern_message: "Invalid input. Only numbers are allowed.",
         special_message: "Invalid phone number.",
     },
+
+    button: {
+        submit: "Submit",
+        clear: "Set to Default",
+        previous: "Load Previous",
+    },
 }
