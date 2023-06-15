@@ -1,2 +1,2 @@
-import error from "./error"
-export default { error };
+import content from "./content"
+export default { content };

@@ -17,7 +17,7 @@ type FormValues = {
   };
 
 const App = (): ReactElement => {
-    const { t } = useTranslation('error');
+    const { t } = useTranslation('content');
     const {
             register, 
             handleSubmit, 
@@ -29,6 +29,7 @@ const App = (): ReactElement => {
         } = useForm({defaultValues:{
         firstName: "", lastName: "", email: "", countryCode:"", phone: ""
     }});
+    
     const onSubmit = (content: any) => {
         alert(JSON.stringify(content))
     };
@@ -75,7 +76,7 @@ const App = (): ReactElement => {
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="form">
             <label>
-                <p className="form-entry-title">First Name</p>
+                <p className="form-entry-title">{t("firstName.title")}</p>
                 <input type="text" {...register("firstName",{
                     validate: (value) => normalPattern(value, "firstName") && normalRequired(value, "firstName")
                 })}
@@ -84,7 +85,7 @@ const App = (): ReactElement => {
                 {errors.firstName && <p className="error-message">{errors.firstName?.message}</p>}
             </label>
             <label>
-                <p className="form-entry-title">Last Name</p>
+                <p className="form-entry-title">{t("lastName.title")}</p>
                 <input type="text" {...register("lastName",{
                     validate: (value) => normalPattern(value, "lastName") && normalRequired(value, "lastName")
                 })}
@@ -93,7 +94,7 @@ const App = (): ReactElement => {
                 {errors.lastName && <p className="error-message">{errors.lastName.message}</p>}
             </label>
             <label>
-                <p className="form-entry-title">Email</p>
+                <p className="form-entry-title">{t("email.title")}</p>
                 <input type="text" {...register("email",{
                     validate: (value) => normalPattern(value, "email") && normalRequired(value, "email")
                 })}
@@ -102,7 +103,7 @@ const App = (): ReactElement => {
                 {errors.email && (<p className="error-message">{errors.email.message}</p>)}
             </label>
             <label className="form-phone">
-                <p className="form-entry-title">Phone</p>
+                <p className="form-entry-title">{t("phone.title")}</p>
                 <div className="form-phone-input-field">
                     <select
                         {...register("countryCode", { 

@@ -5,7 +5,7 @@ import en from './en';
 export const lpInstance = i18n.createInstance();
 const resources = {
   en: {
-    error: en.error,
+    content: en.content,
   },
 };
 
