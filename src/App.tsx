@@ -32,11 +32,20 @@ const App = (): ReactElement => {
             getValues, 
             setError, 
             clearErrors,
-            formState: {errors, isDirty}
+            formState: {errors}
         } = useForm({defaultValues: defaultValues});
 
     const [hasPrevious, handleHasPrevious] = React.useState(localStorage.getItem("dataKey") ? true : false);
     
+    const checkDirty = () => {
+        for(let i = 0; i < fields.length; i++){
+            if(!getValues(fields[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
     const onSubmit = (content: any) => {
         localStorage.setItem('dataKey', JSON.stringify(content));
         handleHasPrevious(true);
@@ -146,7 +155,7 @@ const App = (): ReactElement => {
                 {errors.countryCode && <p className="error-message">{errors.countryCode.message}</p>}
                 {errors.phone && <p className="error-message">{errors.phone.message}</p>}
             </label>
-            <input type="submit" value={t("button.submit")} onClick={handleSubmit(onSubmit)} className={!isDirty ? "form-button": "form-submit"} />
+            <input type="submit" value={t("button.submit")} onClick={handleSubmit(onSubmit)} className={!checkDirty() ? "form-button": "form-submit"} />
             <button type="button" className={"form-clear"} 
                     onClick={() => {
                         fields.forEach((fieldName) => {
@@ -164,21 +173,3 @@ const App = (): ReactElement => {
 }
 
 export default App;
-
-/**
- * <label>
-                <p className="form-entry-title">First Name</p>
-                <input type="text" {...register("firstName", {
-                        required: "First name is required",
-                        pattern: {
-                            value: /^[A-Za-z]/,
-                            message: "First name should only contain letters",
-                        },
-                    })}
-                    onChange={(e) => {
-                        setValue("firstName", e.target.value, { shouldValidate: true }); 
-                    }}
-                    className={`form-input${errors.firstName ? "-input-error" : ""}`}/>
-                {errors.firstName && <p className="error-message">{errors.firstName.message}</p>}
-            </label>
- */
